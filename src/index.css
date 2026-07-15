@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #043d2d;
+  color: #fff8f0;
+  overflow-x: hidden;
+}
+
+/* Arabic direction adjustments */
+html[dir="rtl"] body {
+  font-family: "Cairo", sans-serif;
+}
+
+/* Felt table background used across the site */
+.felt-bg {
+  background-color: #065f46;
+  background-image: radial-gradient(
+      circle at 50% 0%,
+      rgba(212, 175, 55, 0.12),
+      transparent 55%
+    ),
+    radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.35), transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.35), transparent 50%);
+}
+
+/* Subtle repeating suit pattern overlay */
+.suit-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M30 12c-3 5-9 8-9 14a9 9 0 0018 0c0-6-6-9-9-14z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Gold shimmering text */
+.text-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    #a88a2a 0%,
+    #e8c86a 25%,
+    #fff3c4 50%,
+    #e8c86a 75%,
+    #a88a2a 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Playing card corner index helper */
+.card-corner {
+  position: absolute;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #043d2d;
+}
+::-webkit-scrollbar-thumb {
+  background: #a88a2a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Page-flip book: remove default outlines and set shadow */
+.stf__parent {
+  margin: 0 auto;
+}
+.flip-page {
+  background-color: #fff8f0;
+  overflow: hidden;
+}
