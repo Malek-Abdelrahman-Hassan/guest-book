@@ -16,7 +16,7 @@ export default function Footer() {
         <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/50" />
       </div>
 
-      <p className="font-script text-4xl text-gold-shimmer sm:text-5xl">
+      <p className="py-1 font-script text-4xl leading-relaxed text-gold-shimmer sm:text-5xl">
         {t("footer.names")}
       </p>
       <p className="mt-2 font-display text-lg tracking-[0.3em] text-cream/80">

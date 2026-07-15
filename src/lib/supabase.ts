@@ -8,8 +8,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&
     supabaseAnonKey &&
-    !supabaseUrl.includes("your-project-ref") &&
-    !supabaseAnonKey.includes("your-anon")
+    supabaseUrl.startsWith("https://")
 );
 
 export const supabase: SupabaseClient | null = isSupabaseConfigured

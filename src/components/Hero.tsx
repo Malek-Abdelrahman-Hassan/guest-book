@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="felt-bg suit-pattern relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-16 pt-24"
+      className="felt-bg suit-pattern relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden px-4 pb-16 pt-28"
     >
       <FloatingParticles count={16} />
 
@@ -26,20 +26,20 @@ export default function Hero() {
       </motion.p>
 
       {/* The two cards */}
-      <div className="relative z-10 flex items-center justify-center gap-3 sm:gap-8">
+      <div className="relative z-10 flex items-center justify-center gap-1 sm:gap-8">
         <motion.div
           initial={{ y: "-120vh", rotate: -35, opacity: 0 }}
-          animate={{ y: 0, rotate: -6, opacity: 1 }}
+          animate={{ y: 0, rotate: -4, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
           whileHover={{ rotate: 0, y: -12, scale: 1.03 }}
-          className="w-36 sm:w-52 md:w-60"
+          className="w-28 sm:w-52 md:w-60"
         >
           <PlayingCard
             rank="K"
             suit="heart"
             name={t("hero.malek")}
             role={t("hero.king")}
-            center={<SuitIcon suit="heart" className="h-10 w-10 sm:h-14 sm:w-14" />}
+            center={<SuitIcon suit="heart" className="h-6 w-6 sm:h-14 sm:w-14" />}
           />
         </motion.div>
 
@@ -48,29 +48,29 @@ export default function Hero() {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1, duration: 0.6, type: "spring" }}
-          className="relative z-20 -mx-3 flex flex-col items-center sm:-mx-6"
+          className="relative z-20 -mx-2 flex flex-col items-center sm:-mx-6"
         >
           <div className="animate-float text-cardred drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
-            <SuitIcon suit="heart" className="h-10 w-10 sm:h-16 sm:w-16" />
+            <SuitIcon suit="heart" className="h-7 w-7 sm:h-16 sm:w-16" />
           </div>
-          <span className="mt-1 font-script text-3xl text-gold sm:text-5xl">
+          <span className="mt-1 font-script text-2xl leading-relaxed text-gold sm:text-5xl">
             {t("hero.and")}
           </span>
         </motion.div>
 
         <motion.div
           initial={{ y: "-120vh", rotate: 35, opacity: 0 }}
-          animate={{ y: 0, rotate: 6, opacity: 1 }}
+          animate={{ y: 0, rotate: 4, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.6 }}
           whileHover={{ rotate: 0, y: -12, scale: 1.03 }}
-          className="w-36 sm:w-52 md:w-60"
+          className="w-28 sm:w-52 md:w-60"
         >
           <PlayingCard
             rank="Q"
             suit="heart"
             name={t("hero.noha")}
             role={t("hero.queen")}
-            center={<SuitIcon suit="heart" className="h-10 w-10 sm:h-14 sm:w-14" />}
+            center={<SuitIcon suit="heart" className="h-6 w-6 sm:h-14 sm:w-14" />}
           />
         </motion.div>
       </div>
@@ -80,7 +80,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="relative z-10 mt-10 text-center font-script text-5xl leading-tight text-gold-shimmer sm:text-7xl"
+        className="relative z-10 mt-8 px-4 py-2 text-center font-script text-4xl leading-relaxed text-gold-shimmer sm:mt-10 sm:text-6xl md:text-7xl"
       >
         {t("hero.malek")} <span className="text-gold">&amp;</span>{" "}
         {t("hero.noha")}

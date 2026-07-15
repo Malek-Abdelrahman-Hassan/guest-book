@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import SuitIcon from "./SuitIcon";
 
-const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=El+Masa+Hall+International+Park+Nasr+City+Cairo";
+const MAPS_URL = "https://maps.app.goo.gl/ncjhCLmiNdAGzXxa9";
 
 function Divider() {
   return (
