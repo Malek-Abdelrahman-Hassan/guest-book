@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Home",
+    "details": "Details",
+    "guestbook": "Guest Book",
+    "photos": "Photos",
+    "langToggle": "العربية"
+  },
+  "hero": {
+    "invited": "Together with their families",
+    "getMarried": "are getting married",
+    "and": "&",
+    "king": "King of Hearts",
+    "queen": "Queen of Hearts",
+    "malek": "Malek",
+    "noha": "Noha",
+    "date": "Saturday, August 8, 2026",
+    "scrollHint": "Scroll to explore"
+  },
+  "countdown": {
+    "title": "The Big Day Is Coming",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "married": "We're Married!"
+  },
+  "details": {
+    "title": "Wedding Details",
+    "subtitle": "You are cordially invited to celebrate our love",
+    "when": "When",
+    "date": "Saturday, August 8, 2026",
+    "time": "7:00 PM",
+    "where": "Where",
+    "venue": "El Masa Hall",
+    "venueDetails": "International Park, Nasr City, Cairo",
+    "mapButton": "Open in Google Maps"
+  },
+  "guestbook": {
+    "title": "Our Guest Book",
+    "subtitle": "Leave us a message and flip through the wishes of our guests",
+    "formTitle": "Sign the Book",
+    "namePlaceholder": "Your name",
+    "messagePlaceholder": "Write your wishes for us...",
+    "submit": "Add to Book",
+    "submitting": "Adding...",
+    "success": "Thank you! Your message has been added.",
+    "error": "Something went wrong. Please try again.",
+    "validation": "Please fill in your name and message.",
+    "bookTitle": "Guest Book",
+    "bookSubtitle": "Malek & Noha",
+    "coverHint": "Flip the pages",
+    "empty": "Be the first to sign our guest book!",
+    "loading": "Opening the book...",
+    "notConfigured": "The live guest book is not configured yet. Add your Supabase keys to enable it.",
+    "page": "Page",
+    "theEnd": "The End",
+    "theEndHint": "Thank you for your wishes"
+  },
+  "photos": {
+    "title": "Share Your Photos",
+    "subtitle": "Captured a beautiful moment? Scan the code or tap it to upload your photos to our shared album.",
+    "instruction": "Scan or tap to upload",
+    "button": "Open Photo Album"
+  },
+  "footer": {
+    "names": "Malek & Noha",
+    "date": "8 . 8 . 2026",
+    "madeWith": "Made with love"
+  }
+}
