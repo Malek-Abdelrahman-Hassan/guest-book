@@ -5,7 +5,7 @@ import {
   type GuestMessage,
 } from "../lib/supabase";
 
-type SubmitResult = { ok: boolean };
+type SubmitResult = { ok: boolean; error?: string };
 
 export function useMessages() {
   const [messages, setMessages] = useState<GuestMessage[]>([]);
@@ -17,7 +17,9 @@ export function useMessages() {
       .from("messages")
       .select("*")
       .order("created_at", { ascending: true });
-    if (!error && data) {
+    if (error) {
+      console.error("[Guest book] Failed to load messages:", error);
+    } else if (data) {
       setMessages(data as GuestMessage[]);
     }
     setLoading(false);
@@ -55,14 +57,17 @@ export function useMessages() {
 
   const addMessage = useCallback(
     async (name: string, message: string): Promise<SubmitResult> => {
-      if (!supabase) return { ok: false };
+      if (!supabase) return { ok: false, error: "Supabase is not configured." };
       const { data, error } = await supabase
         .from("messages")
         .insert({ name, message })
         .select()
         .single();
 
-      if (error || !data) return { ok: false };
+      if (error || !data) {
+        console.error("[Guest book] Failed to save message:", error);
+        return { ok: false, error: error?.message ?? "Unknown error" };
+      }
 
       // Optimistically add in case the realtime event is delayed.
       const inserted = data as GuestMessage;

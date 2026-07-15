@@ -31,6 +31,7 @@ export default function GuestBook() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+  const [errorDetail, setErrorDetail] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ export default function GuestBook() {
       setMessage("");
       setTimeout(() => setStatus("idle"), 4000);
     } else {
+      setErrorDetail(res.error ?? "");
       setStatus("error");
     }
   };
@@ -130,9 +132,16 @@ export default function GuestBook() {
                 </p>
               )}
               {status === "error" && (
-                <p className="text-center font-body text-sm font-semibold text-cardred-light">
-                  {t("guestbook.error")}
-                </p>
+                <div className="text-center">
+                  <p className="font-body text-sm font-semibold text-cardred-light">
+                    {t("guestbook.error")}
+                  </p>
+                  {errorDetail && (
+                    <p className="mt-1 break-words font-body text-xs text-cream/60">
+                      {errorDetail}
+                    </p>
+                  )}
+                </div>
               )}
               {status === "invalid" && (
                 <p className="text-center font-body text-sm font-semibold text-cardred-light">
