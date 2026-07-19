@@ -56,7 +56,7 @@ export default function PlayingCard({
           {name}
         </p>
         <p
-          className={`mt-1 font-body text-[8px] font-semibold uppercase tracking-[0.15em] sm:text-xs sm:tracking-[0.2em] ${suitColor}`}
+          className={`mt-1 max-w-[4.5rem] text-center font-body text-[8px] font-semibold uppercase leading-tight tracking-[0.15em] sm:max-w-none sm:text-xs sm:tracking-[0.2em] ${suitColor}`}
         >
           {role}
         </p>
