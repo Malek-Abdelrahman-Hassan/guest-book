@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import HTMLFlipBook from "react-pageflip";
 import { motion } from "framer-motion";
@@ -32,6 +32,7 @@ export default function GuestBook() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorDetail, setErrorDetail] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +58,14 @@ export default function GuestBook() {
   const bookKey = messages.length;
 
   const pages = useMemo(() => messages, [messages]);
+
+  // Total pages = cover + one per message + "The End".
+  const totalPages = messages.length + 2;
+
+  // Reset the indicator to the cover whenever the book re-mounts.
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [bookKey]);
 
   const flipNext = () => bookRef.current?.pageFlip?.()?.flipNext?.();
   const flipPrev = () => bookRef.current?.pageFlip?.()?.flipPrev?.();
@@ -192,7 +201,7 @@ export default function GuestBook() {
                   mobileScrollSupport={true}
                   drawShadow={true}
                   className="guestbook-flipbook"
-                  style={{}}
+                  style={{ touchAction: "pan-y" }}
                   startPage={0}
                   flippingTime={800}
                   usePortrait={true}
@@ -203,6 +212,7 @@ export default function GuestBook() {
                   swipeDistance={30}
                   showPageCorners={true}
                   disableFlipByClick={false}
+                  onFlip={(e: { data: number }) => setCurrentPage(e.data)}
                 >
                   {/* Cover */}
                   <BookPage className="!bg-ink">
@@ -289,8 +299,8 @@ export default function GuestBook() {
                       <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
-                  <span className="font-body text-xs uppercase tracking-widest text-cream/60">
-                    {messages.length}
+                  <span className="min-w-[3.5rem] text-center font-body text-xs uppercase tracking-widest tabular-nums text-cream/60">
+                    {currentPage + 1} / {totalPages}
                   </span>
                   <button
                     onClick={flipNext}

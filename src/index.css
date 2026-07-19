@@ -13,6 +13,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  overflow-x: hidden;
 }
 
 body {
@@ -21,6 +22,7 @@ body {
   background-color: #043d2d;
   color: #fff8f0;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 /* Arabic direction adjustments */
@@ -99,8 +101,19 @@ html[dir="rtl"] body {
 /* Page-flip book: remove default outlines and set shadow */
 .stf__parent {
   margin: 0 auto;
+  max-width: 100%;
 }
 .flip-page {
   background-color: #fff8f0;
   overflow: hidden;
+}
+
+/*
+ * Keep horizontal swipe gestures inside the flip book so they turn pages
+ * instead of scrolling/jumping the page (this caused a full-page glitch in
+ * the RTL/Arabic layout on phones). Vertical scrolling still works.
+ */
+.stf__parent,
+.stf__parent * {
+  touch-action: pan-y;
 }
