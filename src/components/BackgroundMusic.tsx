@@ -5,50 +5,84 @@ const SONG_URL = `${import.meta.env.BASE_URL}wedding-song.mp3`;
 /**
  * Plays the wedding song softly on a loop in the background.
  * - Low volume so it stays a subtle backdrop.
- * - Pauses automatically when the tab is hidden, resumes when it's visible.
- * - Respects browser autoplay rules: if autoplay is blocked, it starts on the
- *   visitor's first interaction. A floating button lets them mute/unmute.
+ * - Tries to start immediately; if the browser blocks autoplay (phones always
+ *   do), it starts on the visitor's very first interaction anywhere on the page
+ *   (a tap, scroll, or key press) - no need to find the speaker button.
+ * - Pauses automatically when the tab is hidden and resumes when it's visible.
+ * - The floating button reflects the real playing state, so a single tap always
+ *   toggles correctly.
  */
 export default function BackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [enabled, setEnabled] = useState(true);
-  const enabledRef = useRef(true);
-
-  const setIntent = (value: boolean) => {
-    enabledRef.current = value;
-    setEnabled(value);
-  };
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const wasPlayingRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.18;
 
-    const start = () => {
-      if (!enabledRef.current) return;
-      audio.play().catch(() => {
-        /* autoplay blocked - will retry on interaction */
-      });
-    };
+    const tryPlay = () => audio.play().catch(() => {});
 
-    // Try immediately; if blocked, start on the first user gesture.
-    start();
-    const onFirstInteract = () => start();
-    window.addEventListener("pointerdown", onFirstInteract, { once: true });
-    window.addEventListener("keydown", onFirstInteract, { once: true });
+    const onPlay = () => {
+      setIsPlaying(true);
+      wasPlayingRef.current = true;
+    };
+    const onPause = () => setIsPlaying(false);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+
+    // Attempt right away (works on desktop and re-visits).
+    tryPlay();
+
+    // Fallback for mobile/blocked autoplay: start on the first interaction
+    // anywhere on the page. Ignore taps on the music button itself, which
+    // manages its own play/pause so it never fights this listener.
+    const interactionEvents = [
+      "pointerdown",
+      "touchstart",
+      "keydown",
+      "click",
+      "scroll",
+    ];
+    const onFirstInteract = (e: Event) => {
+      if (
+        buttonRef.current &&
+        e.target instanceof Node &&
+        buttonRef.current.contains(e.target)
+      ) {
+        return;
+      }
+      tryPlay();
+    };
+    interactionEvents.forEach((ev) =>
+      window.addEventListener(ev, onFirstInteract, { passive: true })
+    );
+
+    const removeInteractionListeners = () =>
+      interactionEvents.forEach((ev) =>
+        window.removeEventListener(ev, onFirstInteract)
+      );
+
+    // Once playback actually begins, we no longer need the fallback listeners.
+    const onFirstPlay = () => removeInteractionListeners();
+    audio.addEventListener("play", onFirstPlay, { once: true });
 
     const onVisibility = () => {
       if (document.hidden) {
         audio.pause();
-      } else if (enabledRef.current) {
-        audio.play().catch(() => {});
+      } else if (wasPlayingRef.current) {
+        tryPlay();
       }
     };
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      window.removeEventListener("pointerdown", onFirstInteract);
-      window.removeEventListener("keydown", onFirstInteract);
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("play", onFirstPlay);
+      removeInteractionListeners();
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
@@ -56,25 +90,26 @@ export default function BackgroundMusic() {
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (enabledRef.current) {
-      audio.pause();
-      setIntent(false);
-    } else {
+    if (audio.paused) {
+      wasPlayingRef.current = true;
       audio.play().catch(() => {});
-      setIntent(true);
+    } else {
+      wasPlayingRef.current = false;
+      audio.pause();
     }
   };
 
   return (
     <>
-      <audio ref={audioRef} src={SONG_URL} loop preload="auto" />
+      <audio ref={audioRef} src={SONG_URL} loop preload="auto" autoPlay />
       <button
+        ref={buttonRef}
         onClick={toggle}
-        aria-label={enabled ? "Mute music" : "Play music"}
-        title={enabled ? "Mute music" : "Play music"}
+        aria-label={isPlaying ? "Mute music" : "Play music"}
+        title={isPlaying ? "Mute music" : "Play music"}
         className="fixed bottom-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-ink/80 text-gold shadow-card backdrop-blur-md transition hover:bg-gold hover:text-ink"
       >
-        {enabled ? (
+        {isPlaying ? (
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
             <path d="M4 9v6h4l5 5V4L8 9H4z" />
             <path
