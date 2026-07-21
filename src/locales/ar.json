@@ -6,6 +6,11 @@
     "photos": "الصور",
     "langToggle": "English"
   },
+  "entry": {
+    "kicker": "أنتم مدعوون",
+    "enter": "اضغط للدخول",
+    "withSound": "استمتعوا بالتجربة مع تشغيل الصوت"
+  },
   "hero": {
     "invited": "بمشاركة عائلتيهما",
     "getMarried": "على وشك الزواج",

@@ -1,6 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 const SONG_URL = `${import.meta.env.BASE_URL}wedding-song.mp3`;
+
+export type BackgroundMusicHandle = {
+  /** Start playback. Must be called from within a user gesture on mobile. */
+  play: () => void;
+};
 
 /**
  * Plays the wedding song softly on a loop in the background.
@@ -11,12 +22,22 @@ const SONG_URL = `${import.meta.env.BASE_URL}wedding-song.mp3`;
  * - Pauses automatically when the tab is hidden and resumes when it's visible.
  * - The floating button reflects the real playing state, so a single tap always
  *   toggles correctly.
+ * - Exposes an imperative `play()` so the entry overlay can start it on tap.
  */
-export default function BackgroundMusic() {
+const BackgroundMusic = forwardRef<BackgroundMusicHandle>((_props, ref) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const wasPlayingRef = useRef(false);
+
+  useImperativeHandle(ref, () => ({
+    play: () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      wasPlayingRef.current = true;
+      audio.play().catch(() => {});
+    },
+  }));
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -142,4 +163,8 @@ export default function BackgroundMusic() {
       </button>
     </>
   );
-}
+});
+
+BackgroundMusic.displayName = "BackgroundMusic";
+
+export default BackgroundMusic;

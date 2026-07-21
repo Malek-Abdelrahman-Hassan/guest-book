@@ -6,6 +6,11 @@
     "photos": "Photos",
     "langToggle": "العربية"
   },
+  "entry": {
+    "kicker": "You're Invited",
+    "enter": "Tap to Enter",
+    "withSound": "Best experienced with sound on"
+  },
   "hero": {
     "invited": "Together with their families",
     "getMarried": "are getting married",
